@@ -8,4 +8,4 @@
 06/30/2018  12:34 AM               338 a.txt
 06/30/2018  12:45 AM                 0 b.txt
                2 File(s)            338 bytes
-               2 Dir(s)   2,882,097,152 bytes free
+               2 Dir(s)   2,882,097,152 bytes free  
