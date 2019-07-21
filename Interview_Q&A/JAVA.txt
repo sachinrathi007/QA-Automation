@@ -1,0 +1,90 @@
+o
+== compares object references, it checks to see if the two operands point to the same object (not equivalent objects, the same object).
+
+mHashMap internal Working - 
+Since the internal array of HashMap is of fixed size, and if you keep storing objects, at some point of time hash function will return same bucket location for two different keys, this is called collision in HashMap. In this case, a linked list is formed at that bucket location and a new entry is stored as next node.
+
+If we try to retrieve an object from this linked list, we need an extra check to search correct value, this is done by equals() method. Since each node contains an entry, HashMap keeps comparing entry's key object with the passed key using equals() and when it return true, Map returns the corresponding value.
+
+important point to mention is that HashMap in Java stores both key and value object as Map.Entry in a bucket which is essential to understand the retrieving logic. 
+
+two unequal objects in Java can have same hashcode. Some will give up at this point and few will move ahead and say "Since hashcode is same, bucket location would be same and collision will occur in HashMap Since HashMap uses LinkedList to store object, this entry (object of Map.Entry comprise key and value )  will be stored in LinkedList.
+ 
+if the load factor is .75 it will act to re-size the map once it filled 75%. Similar to other collection classes like ArrayList,  Java HashMap re-size itself by creating a new bucket array of size twice of the previous size of HashMap and then start putting every old element into that new bucket array. This process is called rehashing because it also applies the hash function to find new bucket location.
+
+in Java, the element in the bucket which is stored in linked list get reversed in order during their migration to new bucket because Java HashMap  doesn't append the new element at tail instead it append new element at the head to avoid tail traversing. If race condition happens then you will end up with an infinite loop. 
+
+In the case of the Collision, the HashMap checks for the value of the next attribute if it is null it inserts the Entry object in that location, if next attribute is not null then it keeps the loop running till next attribute is null then stores the Entry object there.
+
+
+
+Example of Reflection newInstance() method
+Let's see the simple example to use newInstance() method.
+
+class Simple{  
+ void message(){System.out.println("Hello Java");}  
+}  
+  
+class Test{  
+ public static void main(String args[]){  
+  try{  
+  Class c=Class.forName("Simple");  
+  Simple s=(Simple)c.newInstance();  
+  s.message();  
+  
+  }catch(Exception e){System.out.println(e);}  
+  
+ }  
+}  
+
+difference between Bean Factory and ApplicationContext
+What is Dependency Injection in Spring
+4.autowiring by @Autowired and @Qualifier annotations
+
+
+19.Does Spring Bean provide thread safety?
+
+The default scope of Spring bean is singleton, so there will be only one instance per context. That means that all the having a class level variable that any thread can update will lead to inconsistent data. Hence in default mode spring beans are not thread-safe.
+
+However we can change spring bean scope to request, prototype or session to achieve thread-safety at the cost of performance. It’s a design decision and based on the project requirements. 
+
+
+29. What do you understand by @Qualifier annotation?
+
+When you create more than one bean of the same type and want to wire only one of them with a property  you can use the @Qualifier annotation along with @Autowired to remove the ambiguity by specifying which exact bean should be wired.
+
+For example, here we have two classes, Employee and EmpAccount respectively. In EmpAccount, using @Qualifier its specified that bean with id emp1 must be wired.
+
+Employee.java
+public class Employee
+{
+private String name;
+@Autowired
+public void setName(String name)
+{ this.name=name; }
+public string getName()
+{ return name; }
+}
+
+EmpAccount.java
+public class EmpAccount
+{
+private Employee emp;
+@Autowired
+@Qualifier(emp1)
+public void showName()
+{
+System.out.println(“Employee name : ”+emp.getName);
+}
+}
+
+
+25.How to handle exceptions in Spring MVC Framework?
+
+Spring MVC Framework provides following ways to help us achieving robust exception handling.
+1.Controller Based – We can define exception handler methods in our controller classes. All we need is to annotate these methods with @ExceptionHandler annotation.
+2.Global Exception Handler – Exception Handling is a cross-cutting concern and Spring provides @ControllerAdvice annotation that we can use with any class to define our global exception handler.
+3.HandlerExceptionResolver implementation – For generic exceptions, most of the times we serve static pages. Spring Framework provides HandlerExceptionResolver interface that we can implement to create global exception handler. The reason behind this additional way to define global exception handler is that Spring framework also provides default implementation classes that we can define in our spring bean configuration file to get spring framework exception handling benefits.
+
+
+What is the difference between concern and cross-cutting concern in Spring AOP
